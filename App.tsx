@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
+// import { BarChart, Grid } from 'react-native-svg-charts';
+import EventsContainer from './containers/EventsContainer';
 
-export default class HelloWorldApp extends Component {
-  render() {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Hello, world!</Text>
-      </View>
-    );
-  }
-}
+const HelloWorldApp = (): JSX.Element => (
+  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <EventsContainer style={{ width: '80%', height: '100%' }} />
+  </View>
+);
+
+export default HelloWorldApp;
