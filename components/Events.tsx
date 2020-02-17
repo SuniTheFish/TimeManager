@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import EventsList from './EventsList';
 import DayEvent from './DayEvent';
-import EventsAdder from './EventsAdder';
+import EventsAdderContainer from '../containers/EventsAdderContainer';
 
 
 type eventsProps = {
@@ -14,15 +14,13 @@ type eventsProps = {
 };
 
 const Events = (props: eventsProps): JSX.Element => {
-  const { onPress, events, style } = props;
+  const { style } = props;
 
   return (
     <View style={style}>
-      <EventsList events={events} />
-      <EventsAdder onPress={onPress} />
-      {/* <TouchableOpacity style={{ position: 'absolute', right: 10, bottom: 10 }} onPress={}>
-        <Text>Touch Here</Text>
-      </TouchableOpacity> */}
+      {/* <EventsList events={events} /> */}
+      <EventsList events={[]} />
+      <EventsAdderContainer style={{ height: '100%' }} />
     </View>
   );
 };

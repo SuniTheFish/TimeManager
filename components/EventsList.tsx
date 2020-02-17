@@ -23,13 +23,13 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   title: {
-    flexBasis: '60%',
+    flexBasis: '33.3333%',
     flexGrow: 0,
     flexShrink: 0,
     fontSize: 30,
   },
   time: {
-    flexBasis: '20%',
+    flexBasis: '33.3333%',
     flexGrow: 0,
     flexShrink: 0,
     fontSize: 30,
@@ -42,9 +42,9 @@ const EventsList = ({ events }: { events: DayEvent[] }): JSX.Element => {
   } = styles;
 
   const eventsRow = [[
-    <Text style={[title, border]}>Name</Text>,
-    <Text style={[time, border]}>Start Time</Text>,
-    <Text style={[time, border]}>End Time</Text>,
+    <Text style={[title, border]} key="event_title_name">Name</Text>,
+    <Text style={[time, border]} key="event_title_start">Start</Text>,
+    <Text style={[time, border]} key="event_title_end">End</Text>,
   ]];
 
   eventsRow.push(...events.map((event) => {
@@ -57,9 +57,9 @@ const EventsList = ({ events }: { events: DayEvent[] }): JSX.Element => {
     const endMinutes = (endTime - endHour) * 60;
 
     return [
-      <Text style={[title, border]}>{name}</Text>,
-      <Text style={[time, border]}>{`${startHour}:${startMinutes}`}</Text>,
-      <Text style={[time, border]}>{`${endHour}:${endMinutes}`}</Text>,
+      <Text style={[title, border]} key={`event_${event.id}_name`}>{name}</Text>,
+      <Text style={[time, border]} key={`event_${event.id}_start`}>{`${startHour}:${startMinutes}`}</Text>,
+      <Text style={[time, border]} key={`event_${event.id}_end`}>{`${endHour}:${endMinutes}`}</Text>,
     ];
   }));
 

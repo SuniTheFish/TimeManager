@@ -1,72 +1,98 @@
 import React from 'react';
 import {
-  Button, View, TextInput, Text, StyleSheet,
+  View, Text, StyleSheet, TouchableOpacity, TextInput, Button, StyleProp, ViewStyle,
 } from 'react-native';
+import TimePicker from 'react-time-picker';
 
 const styles = StyleSheet.create({
-  text: {
-    flex: 1,
-    textAlign: 'center',
-    fontSize: 15,
+  formView: {
+    position: 'absolute',
+    left: 10,
+    right: 10,
+    margin: 'auto',
+    backgroundColor: 'rgba(222, 222, 222, 0.9)',
+    borderWidth: 0,
+    borderRadius: 5,
   },
-  input: {
+  formText: {
+    flex: 1,
+    flexBasis: '50%',
+    color: 'black',
+    textAlign: 'right',
+    fontSize: 20,
+  },
+  formInput: {
+    flex: 1,
+    flexBasis: '50%',
+    minWidth: 0,
+  },
+  formFieldRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'center',
     flex: 1,
   },
-  border: {
+  floatingButton: {
+    position: 'absolute',
+    backgroundColor: 'grey',
+    borderColor: 'grey',
+    borderRadius: 25,
     borderWidth: 1,
-    borderRadius: 3,
-    borderColor: '#a8a8a8',
+    width: 50,
+    height: 50,
+    right: 10,
+    bottom: 10,
   },
 });
 
-export default class EventsAdder extends
-  React.Component<
-    {onPress: (name: string, start: number, end: number) => void},
-    {name: string; start: number; end: number}
-  > {
-  constructor(props) {
-    super(props);
+type eventsAdderProps = {
+  style: StyleProp<ViewStyle>;
+  formVisible?: boolean;
+  formToggle: (value: boolean) => void;
+  name: string;
+  onNameChange: (name: string) => void;
+  start: string;
+  onStartChange: (start: string) => void;
+  end: string;
+  onEndChange: (end: string) => void;
+};
 
-    this.state = { name: '', start: null, end: null };
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleStartChange = this.handleStartChange.bind(this);
-    this.handleEndChange = this.handleEndChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-  }
+const EventsAdder = (props: eventsAdderProps): JSX.Element => {
+  const {
+    floatingButton, formView, formText, formFieldRow, formInput,
+  } = styles;
+  const {
+    formVisible, formToggle, style, name, onNameChange, start, onStartChange, end, onEndChange,
+  } = props;
 
-  handleNameChange(name: string): void {
-    this.setState({ name });
-  }
-
-  handleStartChange(start: string): void {
-    this.setState({ start: parseInt(start, 10) });
-  }
-
-  handleEndChange(end: string): void {
-    this.setState({ end: parseInt(end, 10) });
-  }
-
-  handleClick(): void {
-    const { onPress } = this.props;
-    const { name, start, end } = this.state;
-    if (name !== '' && start && end) {
-      onPress(name, start, end);
-    }
-  }
-
-  render(): JSX.Element {
-    const { name, start, end } = this.state;
-
-    return (
-      <View style={{ flexDirection: 'row', alignContent: 'center' }}>
-        <Text style={styles.text}>Event Name:</Text>
-        <TextInput style={[styles.input, styles.border]} placeholder="Name" onChangeText={this.handleNameChange} value={name} />
-        <Text style={styles.text}>Start Time:</Text>
-        <TextInput style={[styles.input, styles.border]} placeholder="Start" onChangeText={this.handleStartChange} value={`${start}`} keyboardType="numeric" />
-        <Text style={styles.text}>End Time:</Text>
-        <TextInput style={[styles.input, styles.border]} placeholder="End" onChangeText={this.handleEndChange} value={`${end}`} keyboardType="numeric" />
-        <Button title="Add Event" onPress={this.handleClick} />
+  return (
+    <View style={style}>
+      <View style={[formView, { display: (formVisible ? 'flex' as 'flex' : 'none' as 'none') }]}>
+        <Text style={[formText, { fontWeight: 'bold', fontSize: 40, textAlign: 'center' }]}>Add Event</Text>
+        <View style={formFieldRow}>
+          <Text style={formText}>Event Name: </Text>
+          <TextInput style={[formInput, { fontSize: 20 }]} placeholder="Name" onChangeText={onNameChange} value={name} />
+        </View>
+        <View style={formFieldRow}>
+          <Text style={formText}>Event Start Time: </Text>
+          <View style={formInput}>
+            <TimePicker disableClock onChange={onStartChange} value={start} />
+          </View>
+        </View>
+        <View style={formFieldRow}>
+          <Text style={formText}>Event End Time: </Text>
+          <View style={formInput}>
+            <TimePicker disableClock onChange={onEndChange} value={end} />
+          </View>
+        </View>
+        <Button title="Add Event" onPress={(): void => formToggle(false)} />
       </View>
-    );
-  }
-}
+      <TouchableOpacity style={floatingButton} onPress={(): void => formToggle(true)}>
+        <Text style={{ textAlign: 'center', fontSize: 50, marginTop: -15 }}>+</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+export default EventsAdder;
