@@ -2,7 +2,7 @@ import React from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity, TextInput, Button, StyleProp, ViewStyle,
 } from 'react-native';
-import DatePicker from '@react-native-community/datetimepicker';
+import TimePickerContainer from '../containers/TimePickerContainer';
 
 const styles = StyleSheet.create({
   formView: {
@@ -53,7 +53,6 @@ type eventsAdderProps = {
   name: string;
   onNameChange: (name: string) => void;
   start: Date;
-  startPickerVisible: boolean;
   onStartChange: (start: Date) => void;
   showStartPicker: () => void;
   end: Date;
@@ -74,7 +73,6 @@ const EventsAdder = (props: eventsAdderProps): JSX.Element => {
     onNameChange,
     start,
     onStartChange,
-    startPickerVisible,
     showStartPicker,
     end,
     onEndChange,
@@ -93,13 +91,14 @@ const EventsAdder = (props: eventsAdderProps): JSX.Element => {
         </View>
         <View style={formFieldRow}>
           <Text style={formText}>Event Start Time: </Text>
-          <View style={formInput}>
+          <TimePickerContainer style={formInput} />
+          {/* <View style={formInput}>
             <Button title={start.toLocaleTimeString()} onPress={showStartPicker} />
             {
               startPickerVisible
               && <DatePicker value={start} mode="time" onChange={(_, date): void => onStartChange(date)} />
             }
-          </View>
+          </View> */}
         </View>
         <View style={formFieldRow}>
           <Text style={formText}>Event End Time: </Text>
@@ -111,7 +110,7 @@ const EventsAdder = (props: eventsAdderProps): JSX.Element => {
       </View>
       )}
       <TouchableOpacity style={floatingButton} onPress={(): void => formToggle(!formVisible)}>
-        <Text style={{ textAlign: 'center', fontSize: 50, marginTop: -15 }}>+</Text>
+        <Text style={{ textAlign: 'center', fontSize: 50, marginTop: -12.5 }}>+</Text>
       </TouchableOpacity>
     </View>
   );

@@ -22,7 +22,7 @@ export default class EventsAdderContainer extends
     super(props);
 
     this.state = {
-      formVisibility: false,
+      formVisibility: true,
       name: '',
       startPickerVisible: false,
       endPickerVisible: false,
@@ -32,7 +32,6 @@ export default class EventsAdderContainer extends
     this.toggleFormVisibility = this.toggleFormVisibility.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleStartChange = this.handleStartChange.bind(this);
-    this.showStartPicker = this.showStartPicker.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -41,13 +40,8 @@ export default class EventsAdderContainer extends
     this.setState({ name });
   }
 
-  showStartPicker(): void {
-    // const { startPickerVisible } = this.state;
-    this.setState({ startPickerVisible: true });
-  }
-
   handleStartChange(start: Date): void {
-    this.setState({ start, startPickerVisible: false });
+    this.setState({ start });
   }
 
   handleEndChange(end: Date): void {
