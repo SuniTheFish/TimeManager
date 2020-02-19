@@ -8,19 +8,18 @@ import EventsAdderContainer from '../containers/EventsAdderContainer';
 
 
 type eventsProps = {
-  onPress: (name: string, start: number, end: number) => void;
+  onSubmit: (name: string, start: Date, end: Date) => void;
   events: DayEvent[];
   style?: StyleProp<ViewStyle>;
 };
 
 const Events = (props: eventsProps): JSX.Element => {
-  const { style } = props;
+  const { style, events, onSubmit } = props;
 
   return (
     <View style={style}>
-      {/* <EventsList events={events} /> */}
-      <EventsList events={[]} />
-      <EventsAdderContainer style={{ height: '100%' }} />
+      <EventsList events={events} />
+      <EventsAdderContainer style={{ height: '100%' }} onSubmit={onSubmit} />
     </View>
   );
 };

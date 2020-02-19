@@ -2,7 +2,7 @@ import React from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity, TextInput, Button, StyleProp, ViewStyle,
 } from 'react-native';
-import TimePicker from 'react-time-picker';
+import DatePicker from '@react-native-community/datetimepicker';
 
 const styles = StyleSheet.create({
   formView: {
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     margin: 'auto',
     backgroundColor: 'rgba(222, 222, 222, 0.9)',
     borderWidth: 0,
-    borderRadius: 5,
+    borderRadius: 1,
   },
   formText: {
     flex: 1,
@@ -52,10 +52,14 @@ type eventsAdderProps = {
   formToggle: (value: boolean) => void;
   name: string;
   onNameChange: (name: string) => void;
-  start: string;
-  onStartChange: (start: string) => void;
-  end: string;
-  onEndChange: (end: string) => void;
+  start: Date;
+  startPickerVisible: boolean;
+  onStartChange: (start: Date) => void;
+  showStartPicker: () => void;
+  end: Date;
+  endPickerVisible: boolean;
+  onEndChange: (end: Date) => void;
+  onSubmit: () => void;
 };
 
 const EventsAdder = (props: eventsAdderProps): JSX.Element => {
@@ -63,12 +67,25 @@ const EventsAdder = (props: eventsAdderProps): JSX.Element => {
     floatingButton, formView, formText, formFieldRow, formInput,
   } = styles;
   const {
-    formVisible, formToggle, style, name, onNameChange, start, onStartChange, end, onEndChange,
+    formVisible,
+    formToggle,
+    style,
+    name,
+    onNameChange,
+    start,
+    onStartChange,
+    startPickerVisible,
+    showStartPicker,
+    end,
+    onEndChange,
+    endPickerVisible,
+    onSubmit,
   } = props;
 
   return (
     <View style={style}>
-      <View style={[formView, { display: (formVisible ? 'flex' as 'flex' : 'none' as 'none') }]}>
+      { formVisible && (
+      <View style={formView}>
         <Text style={[formText, { fontWeight: 'bold', fontSize: 40, textAlign: 'center' }]}>Add Event</Text>
         <View style={formFieldRow}>
           <Text style={formText}>Event Name: </Text>
@@ -77,18 +94,23 @@ const EventsAdder = (props: eventsAdderProps): JSX.Element => {
         <View style={formFieldRow}>
           <Text style={formText}>Event Start Time: </Text>
           <View style={formInput}>
-            <TimePicker disableClock onChange={onStartChange} value={start} />
+            <Button title={start.toLocaleTimeString()} onPress={showStartPicker} />
+            {
+              startPickerVisible
+              && <DatePicker value={start} mode="time" onChange={(_, date): void => onStartChange(date)} />
+            }
           </View>
         </View>
         <View style={formFieldRow}>
           <Text style={formText}>Event End Time: </Text>
           <View style={formInput}>
-            <TimePicker disableClock onChange={onEndChange} value={end} />
+            {/* <TimePicker disableClock onChange={onEndChange} value={end} /> */}
           </View>
         </View>
-        <Button title="Add Event" onPress={(): void => formToggle(false)} />
+        <Button title="Add Event" onPress={onSubmit} />
       </View>
-      <TouchableOpacity style={floatingButton} onPress={(): void => formToggle(true)}>
+      )}
+      <TouchableOpacity style={floatingButton} onPress={(): void => formToggle(!formVisible)}>
         <Text style={{ textAlign: 'center', fontSize: 50, marginTop: -15 }}>+</Text>
       </TouchableOpacity>
     </View>

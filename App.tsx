@@ -4,7 +4,7 @@ import EventsContainer from './containers/EventsContainer';
 
 const HelloWorldApp = (): JSX.Element => (
   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <EventsContainer style={{ width: '80%', height: '50%' }} />
+    <EventsContainer style={{ width: '80%', height: '100%' }} />
   </View>
 );
 

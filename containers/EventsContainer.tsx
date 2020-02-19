@@ -2,6 +2,7 @@ import React from 'react';
 import {
   StyleProp, ViewStyle,
 } from 'react-native';
+// import AsyncStorage from '@react-native-community/async-storage';
 import DayEvent from '../components/DayEvent';
 import Events from '../components/Events';
 
@@ -12,11 +13,11 @@ export default class EventsContainer extends React.Component<
   constructor(props) {
     super(props);
 
-    this.state = { events: [new DayEvent('Test Event', 1.5, 3.5)] };
-    this.handlePress = this.handlePress.bind(this);
+    this.state = { events: [] };
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handlePress(name: string, start: number, end: number): void {
+  handleSubmit(name: string, start: Date, end: Date): void {
     const { events } = this.state;
     events.push(new DayEvent(name, start, end));
     this.setState({ events });
@@ -27,7 +28,7 @@ export default class EventsContainer extends React.Component<
     const { style } = this.props;
 
     return (
-      <Events style={style} onPress={this.handlePress} events={events} />
+      <Events style={style} onSubmit={this.handleSubmit} events={events} />
     );
   }
 }

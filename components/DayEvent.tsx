@@ -1,18 +1,18 @@
 export default class DayEvent {
     public name: string;
 
-    public startTime: number;
+    public start: Date;
 
-    public endTime: number;
+    public end: Date;
 
     public static ID = 0;
 
     public id: number;
 
-    constructor(name: string, startTime: number, endTime: number) {
+    constructor(name: string, startTime: Date, endTime: Date) {
       this.name = name;
-      this.startTime = startTime;
-      this.endTime = endTime;
+      this.start = startTime;
+      this.end = endTime;
 
       this.id = DayEvent.ID;
       DayEvent.ID += 1;

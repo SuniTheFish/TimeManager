@@ -11,16 +11,14 @@ const styles = StyleSheet.create({
     alignContent: 'flex-start',
     flexWrap: 'wrap',
   },
-  // row: {
-  //   flex: 1,
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-evenly',
-  //   alignItems: 'flex-start',
-  // },
+  headerBorder: {
+    borderWidth: 1,
+    borderColor: '#b5b5b5',
+    borderTopWidth: 0,
+  },
   border: {
     borderWidth: 1,
     borderColor: '#b5b5b5',
-    borderRadius: 3,
   },
   title: {
     flexBasis: '33.3333%',
@@ -36,30 +34,30 @@ const styles = StyleSheet.create({
   },
 });
 
+const localeOptions = {
+  hour: '2-digit',
+  minute: '2-digit',
+  timeZone: 'UTC',
+};
+
 const EventsList = ({ events }: { events: DayEvent[] }): JSX.Element => {
   const {
-    title, time, border, list,
+    title, time, border, list, headerBorder,
   } = styles;
 
   const eventsRow = [[
-    <Text style={[title, border]} key="event_title_name">Name</Text>,
-    <Text style={[time, border]} key="event_title_start">Start</Text>,
-    <Text style={[time, border]} key="event_title_end">End</Text>,
+    <Text style={[title, headerBorder, { borderLeftWidth: 0 }]} key="event_title_name">Name</Text>,
+    <Text style={[time, headerBorder]} key="event_title_start">Start</Text>,
+    <Text style={[time, headerBorder, { borderRightWidth: 0 }]} key="event_title_end">End</Text>,
   ]];
 
   eventsRow.push(...events.map((event) => {
-    const { name, startTime, endTime } = event;
-
-    const startHour = Math.floor(startTime);
-    const startMinutes = (startTime - startHour) * 60;
-
-    const endHour = Math.floor(endTime);
-    const endMinutes = (endTime - endHour) * 60;
+    const { name, start, end } = event;
 
     return [
       <Text style={[title, border]} key={`event_${event.id}_name`}>{name}</Text>,
-      <Text style={[time, border]} key={`event_${event.id}_start`}>{`${startHour}:${startMinutes}`}</Text>,
-      <Text style={[time, border]} key={`event_${event.id}_end`}>{`${endHour}:${endMinutes}`}</Text>,
+      <Text style={[time, border]} key={`event_${event.id}_start`}>{start.toLocaleTimeString('en-US', localeOptions)}</Text>,
+      <Text style={[time, border]} key={`event_${event.id}_end`}>{end.toLocaleTimeString('en-US', localeOptions)}</Text>,
     ];
   }));
 
