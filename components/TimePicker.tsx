@@ -3,16 +3,7 @@ import {
   View, Button, StyleProp, ViewStyle,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
-function toAMPM(date: Date): string {
-  let hours = date.getHours();
-  let minutes: number | string = date.getMinutes();
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-  hours %= 12;
-  hours = hours || 12;
-  minutes = minutes < 10 ? `0${minutes}` : minutes;
-  return `${hours}:${minutes} ${ampm}`;
-}
+import toAMPM from '../containers/toAMPM';
 
 type commProps = {
   style: StyleProp<ViewStyle>;

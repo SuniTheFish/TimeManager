@@ -11,8 +11,6 @@ export default class EventsAdderContainer extends
     // {onPress: (name: string, start: number, end: number) => void},
     {
       formVisibility: boolean;
-      startPickerVisible: boolean;
-      endPickerVisible: boolean;
       name: string;
       start: Date;
       end: Date;
@@ -22,10 +20,8 @@ export default class EventsAdderContainer extends
     super(props);
 
     this.state = {
-      formVisibility: true,
+      formVisibility: false,
       name: '',
-      startPickerVisible: false,
-      endPickerVisible: false,
       start: new Date(),
       end: new Date(),
     };
@@ -51,7 +47,7 @@ export default class EventsAdderContainer extends
   handleSubmit(): void {
     const { onSubmit } = this.props;
     const { name, start, end } = this.state;
-    onSubmit(name, start, end);
+    onSubmit(name || 'Unnamed Event', start, end);
     this.toggleFormVisibility(false);
     this.setState({ name: '', start: new Date(), end: new Date() });
   }
@@ -62,7 +58,7 @@ export default class EventsAdderContainer extends
 
   render(): JSX.Element {
     const {
-      formVisibility, name, start, startPickerVisible, end, endPickerVisible,
+      formVisibility, name, start, end,
     } = this.state;
     const { style } = this.props;
 
@@ -75,12 +71,9 @@ export default class EventsAdderContainer extends
         onNameChange={this.handleNameChange}
         start={start}
         onStartChange={this.handleStartChange}
-        showStartPicker={this.showStartPicker}
-        startPickerVisible={startPickerVisible}
         end={end}
         onEndChange={this.handleEndChange}
         onSubmit={this.handleSubmit}
-        endPickerVisible={endPickerVisible}
       />
     );
   }

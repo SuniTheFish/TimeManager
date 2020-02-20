@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Text, StyleSheet, View } from 'react-native';
 import DayEvent from './DayEvent';
+import toAMPM from '../containers/toAMPM';
 
 const styles = StyleSheet.create({
   list: {
@@ -20,48 +21,50 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#b5b5b5',
   },
-  title: {
-    flexBasis: '33.3333%',
-    flexGrow: 0,
-    flexShrink: 0,
-    fontSize: 30,
+  colHeader: {
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
-  time: {
-    flexBasis: '33.3333%',
+  title: {
+    flexBasis: '60%',
     flexGrow: 0,
     flexShrink: 0,
-    fontSize: 30,
+    fontSize: 19,
+  },
+  eventData: {
+    flexBasis: '20%',
+    flexGrow: 0,
+    flexShrink: 0,
+    fontSize: 19,
   },
 });
 
-const localeOptions = {
-  hour: '2-digit',
-  minute: '2-digit',
-  timeZone: 'UTC',
-};
-
 const EventsList = ({ events }: { events: DayEvent[] }): JSX.Element => {
   const {
-    title, time, border, list, headerBorder,
+    title, eventData: time, border, list, headerBorder, colHeader,
   } = styles;
 
-  const eventsRow = [[
-    <Text style={[title, headerBorder, { borderLeftWidth: 0 }]} key="event_title_name">Name</Text>,
-    <Text style={[time, headerBorder]} key="event_title_start">Start</Text>,
-    <Text style={[time, headerBorder, { borderRightWidth: 0 }]} key="event_title_end">End</Text>,
-  ]];
+  const eventsRow = [];
 
   eventsRow.push(...events.map((event) => {
     const { name, start, end } = event;
 
     return [
       <Text style={[title, border]} key={`event_${event.id}_name`}>{name}</Text>,
-      <Text style={[time, border]} key={`event_${event.id}_start`}>{start.toLocaleTimeString('en-US', localeOptions)}</Text>,
-      <Text style={[time, border]} key={`event_${event.id}_end`}>{end.toLocaleTimeString('en-US', localeOptions)}</Text>,
+      <Text style={[time, border]} key={`event_${event.id}_start`}>{toAMPM(start)}</Text>,
+      <Text style={[time, border]} key={`event_${event.id}_end`}>{toAMPM(end)}</Text>,
     ];
   }));
 
-  return <View style={list}>{eventsRow}</View>;
+  return (
+    <View style={list}>
+      <Text style={[title, headerBorder, colHeader, { fontSize: 30, flexBasis: '100%' }]}>Events</Text>
+      <Text style={[title, headerBorder, colHeader]}>Name</Text>
+      <Text style={[time, headerBorder, colHeader]}>Start</Text>
+      <Text style={[time, headerBorder, colHeader]}>End</Text>
+      {eventsRow}
+    </View>
+  );
 };
 
 EventsList.propTypes = {

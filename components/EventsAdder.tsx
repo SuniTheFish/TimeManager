@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     left: 10,
     right: 10,
     margin: 'auto',
-    backgroundColor: 'rgba(222, 222, 222, 0.9)',
+    backgroundColor: 'rgba(222, 222, 222, 1.0)',
     borderWidth: 0,
     borderRadius: 1,
   },
@@ -54,9 +54,7 @@ type eventsAdderProps = {
   onNameChange: (name: string) => void;
   start: Date;
   onStartChange: (start: Date) => void;
-  showStartPicker: () => void;
   end: Date;
-  endPickerVisible: boolean;
   onEndChange: (end: Date) => void;
   onSubmit: () => void;
 };
@@ -73,10 +71,8 @@ const EventsAdder = (props: eventsAdderProps): JSX.Element => {
     onNameChange,
     start,
     onStartChange,
-    showStartPicker,
     end,
     onEndChange,
-    endPickerVisible,
     onSubmit,
   } = props;
 
@@ -86,25 +82,16 @@ const EventsAdder = (props: eventsAdderProps): JSX.Element => {
       <View style={formView}>
         <Text style={[formText, { fontWeight: 'bold', fontSize: 40, textAlign: 'center' }]}>Add Event</Text>
         <View style={formFieldRow}>
-          <Text style={formText}>Event Name: </Text>
-          <TextInput style={[formInput, { fontSize: 20 }]} placeholder="Name" onChangeText={onNameChange} value={name} />
+          <Text style={formText}>Name:</Text>
+          <TextInput style={[formInput, { fontSize: 20, borderWidth: 1, borderRadius: 2 }]} placeholder="Name" onChangeText={onNameChange} value={name} />
         </View>
         <View style={formFieldRow}>
-          <Text style={formText}>Event Start Time: </Text>
-          <TimePickerContainer style={formInput} />
-          {/* <View style={formInput}>
-            <Button title={start.toLocaleTimeString()} onPress={showStartPicker} />
-            {
-              startPickerVisible
-              && <DatePicker value={start} mode="time" onChange={(_, date): void => onStartChange(date)} />
-            }
-          </View> */}
+          <Text style={formText}>Start Time:</Text>
+          <TimePickerContainer style={formInput} onChange={onStartChange} time={start} />
         </View>
         <View style={formFieldRow}>
-          <Text style={formText}>Event End Time: </Text>
-          <View style={formInput}>
-            {/* <TimePicker disableClock onChange={onEndChange} value={end} /> */}
-          </View>
+          <Text style={formText}>End Time:</Text>
+          <TimePickerContainer style={formInput} onChange={onEndChange} time={end} />
         </View>
         <Button title="Add Event" onPress={onSubmit} />
       </View>

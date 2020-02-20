@@ -17,10 +17,12 @@ export default class EventsContainer extends React.Component<
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(name: string, start: Date, end: Date): void {
+  handleSubmit(name: string, start: Date, end: Date): boolean {
     const { events } = this.state;
     events.push(new DayEvent(name, start, end));
+    events.sort((a, b) => a.start.getTime() - b.start.getTime());
     this.setState({ events });
+    return true;
   }
 
   render(): JSX.Element {
