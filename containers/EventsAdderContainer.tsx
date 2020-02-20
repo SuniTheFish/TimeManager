@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleProp, ViewStyle } from 'react-native';
+import { StyleProp, ViewStyle, Alert } from 'react-native';
 import EventsAdder from '../components/EventsAdder';
 
 export default class EventsAdderContainer extends
   React.Component<
     {
       style?: StyleProp<ViewStyle>;
-      onSubmit: (name: string, start: Date, end: Date) => void;
+      onSubmit: (name: string, start: Date, end: Date) => boolean;
     },
     // {onPress: (name: string, start: number, end: number) => void},
     {
@@ -47,7 +47,13 @@ export default class EventsAdderContainer extends
   handleSubmit(): void {
     const { onSubmit } = this.props;
     const { name, start, end } = this.state;
-    onSubmit(name || 'Unnamed Event', start, end);
+    if (start > end) {
+      Alert.alert('Invalid Times', 'Events can\'t end before they start.', [{ text: 'OK' }]);
+    }
+    if (!onSubmit(name || 'Unnamed Event', start, end)) {
+      Alert.alert('Event Conflict', 'Conflicting Events Are Not Allowed.', [{ text: 'OK' }]);
+      return;
+    }
     this.toggleFormVisibility(false);
     this.setState({ name: '', start: new Date(), end: new Date() });
   }

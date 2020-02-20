@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, StyleSheet, View } from 'react-native';
+import {
+  Text, StyleSheet, View, TouchableOpacity,
+} from 'react-native';
 import DayEvent from './DayEvent';
 import toAMPM from '../containers/toAMPM';
 
@@ -26,33 +28,54 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   title: {
-    flexBasis: '60%',
+    flexBasis: '45%',
     flexGrow: 0,
     flexShrink: 0,
     fontSize: 19,
   },
   eventData: {
-    flexBasis: '20%',
+    flexBasis: '25%',
     flexGrow: 0,
     flexShrink: 0,
     fontSize: 19,
   },
+  trash: {
+    flexBasis: '5%',
+    fontSize: 19,
+    textAlign: 'center',
+  },
+  trashIcon: {
+    fontSize: 19,
+    color: 'white',
+    backgroundColor: 'red',
+    textAlign: 'center',
+  },
 });
 
-const EventsList = ({ events }: { events: DayEvent[] }): JSX.Element => {
+type eventsProps = {
+  events: DayEvent[];
+  onNamePress: (id: number) => void;
+}
+
+const EventsList = ({ events, onNamePress }: eventsProps): JSX.Element => {
   const {
-    title, eventData: time, border, list, headerBorder, colHeader,
+    title, eventData: time, border, list, headerBorder, colHeader, trash, trashIcon,
   } = styles;
 
-  const eventsRow = [];
+  const eventsRows = [];
 
-  eventsRow.push(...events.map((event) => {
+  eventsRows.push(...events.map((event) => {
     const { name, start, end } = event;
 
     return [
       <Text style={[title, border]} key={`event_${event.id}_name`}>{name}</Text>,
       <Text style={[time, border]} key={`event_${event.id}_start`}>{toAMPM(start)}</Text>,
       <Text style={[time, border]} key={`event_${event.id}_end`}>{toAMPM(end)}</Text>,
+      (
+        <TouchableOpacity style={[trash, border]} onPress={(): void => onNamePress(event.id)} key={`event_${event.id}_delete`}>
+          <Text style={trashIcon}>X</Text>
+        </TouchableOpacity>
+      ),
     ];
   }));
 
@@ -62,7 +85,8 @@ const EventsList = ({ events }: { events: DayEvent[] }): JSX.Element => {
       <Text style={[title, headerBorder, colHeader]}>Name</Text>
       <Text style={[time, headerBorder, colHeader]}>Start</Text>
       <Text style={[time, headerBorder, colHeader]}>End</Text>
-      {eventsRow}
+      <Text style={[trash, headerBorder]} />
+      {eventsRows}
     </View>
   );
 };
