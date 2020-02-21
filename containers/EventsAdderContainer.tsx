@@ -49,6 +49,7 @@ export default class EventsAdderContainer extends
     const { name, start, end } = this.state;
     if (start > end) {
       Alert.alert('Invalid Times', 'Events can\'t end before they start.', [{ text: 'OK' }]);
+      return;
     }
     if (!onSubmit(name || 'Unnamed Event', start, end)) {
       Alert.alert('Event Conflict', 'Conflicting Events Are Not Allowed.', [{ text: 'OK' }]);

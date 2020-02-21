@@ -5,6 +5,7 @@ import {
 import EventsList from './EventsList';
 import DayEvent from './DayEvent';
 import EventsAdderContainer from '../containers/EventsAdderContainer';
+import EventsPie from './EventsPie';
 
 
 type eventsProps = {
@@ -21,8 +22,9 @@ const Events = (props: eventsProps): JSX.Element => {
 
   return (
     <View style={style}>
+      <EventsPie style={{ height: '40%' }} events={events} />
       <EventsList events={events} onNamePress={onNamePress} />
-      <EventsAdderContainer style={{ height: '100%' }} onSubmit={onSubmit} />
+      <EventsAdderContainer style={{ height: '60%' }} onSubmit={onSubmit} />
     </View>
   );
 };
