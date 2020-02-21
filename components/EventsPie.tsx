@@ -20,7 +20,7 @@ const EventsPie = ({ style, events }: eventsPieProps): JSX.Element => {
     start: event.start.getTime(),
     name: event.name,
     svg: {
-      fill: '#09ab00',
+      fill: event.color,
     },
     key: `event_pie_${event.id}`,
   }));

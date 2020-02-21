@@ -1,8 +1,7 @@
 import React from 'react';
 import {
-  StyleProp, ViewStyle, Alert,
+  StyleProp, ViewStyle, Alert, AsyncStorage,
 } from 'react-native';
-// import AsyncStorage from '@react-native-community/async-storage';
 import DayEvent from '../components/DayEvent';
 import Events from '../components/Events';
 
@@ -36,6 +35,16 @@ export default class EventsContainer extends React.Component<
     this.state = { events: [] };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onNamePress = this.onNamePress.bind(this);
+    this.storeEvents = this.storeEvents.bind(this);
+    this.loadEvents = this.loadEvents.bind(this);
+    this.loadEvents();
+  }
+
+  // async componentDidMount(): Promise<void> {
+  // }
+
+  componentDidUpdate(): void {
+    this.storeEvents();
   }
 
   /**
@@ -59,6 +68,34 @@ export default class EventsContainer extends React.Component<
         },
       ],
     );
+  }
+
+  async storeEvents(): Promise<void> {
+    try {
+      const { events } = this.state;
+      const rawEvents = events.map(({
+        name, start, end, color,
+      }) => [
+        name, start, end, color,
+      ]);
+      await AsyncStorage.setItem('@events', JSON.stringify(rawEvents));
+    } catch (_) {
+      // ignore save failure
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async loadEvents(): Promise<void> {
+    try {
+      const value = await AsyncStorage.getItem('@events');
+      if (value !== null) {
+        const rawData = JSON.parse(value);
+        const parsedData = rawData.map((val) => new DayEvent(val[0], val[1], val[2], val[3]));
+        this.setState({ events: parsedData });
+      }
+    } catch (_) {
+      // ignore file load error (might change in future... but for now...)
+    }
   }
 
   /**

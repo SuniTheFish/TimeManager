@@ -68,7 +68,7 @@ const EventsList = ({ events, onNamePress }: eventsProps): JSX.Element => {
     const { name, start, end } = event;
 
     return [
-      <Text style={[title, border]} key={`event_${event.id}_name`}>{name}</Text>,
+      <Text style={[title, border, { color: event.color }]} key={`event_${event.id}_name`}>{name}</Text>,
       <Text style={[time, border]} key={`event_${event.id}_start`}>{toAMPM(start)}</Text>,
       <Text style={[time, border]} key={`event_${event.id}_end`}>{toAMPM(end)}</Text>,
       (

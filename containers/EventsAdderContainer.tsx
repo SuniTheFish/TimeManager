@@ -19,11 +19,13 @@ export default class EventsAdderContainer extends
   constructor(props) {
     super(props);
 
+    const endDate = new Date();
+    endDate.setHours(endDate.getHours() + 1);
     this.state = {
       formVisibility: false,
       name: '',
       start: new Date(),
-      end: new Date(),
+      end: endDate,
     };
     this.toggleFormVisibility = this.toggleFormVisibility.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
@@ -56,7 +58,9 @@ export default class EventsAdderContainer extends
       return;
     }
     this.toggleFormVisibility(false);
-    this.setState({ name: '', start: new Date(), end: new Date() });
+    const endDate = new Date();
+    endDate.setHours(endDate.getHours() + 1);
+    this.setState({ name: '', start: new Date(), end: endDate });
   }
 
   toggleFormVisibility(value: boolean): void {
