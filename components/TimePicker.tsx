@@ -3,11 +3,12 @@ import {
   View, Button, StyleProp, ViewStyle,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import toAMPM from '../containers/toAMPM';
+import toAMPM from '../utilClasses/toAMPM';
+import Time from '../utilClasses/Time';
 
 type commProps = {
   style: StyleProp<ViewStyle>;
-  time: Date;
+  time: Time;
   onChange: (_, time: Date) => void;
   pickerVisible: boolean;
   showPicker: () => void;
@@ -25,7 +26,7 @@ const TimePicker = (props: commProps): JSX.Element => {
         pickerVisible
         && (
           <DateTimePicker
-            value={time}
+            value={time.toDate()}
             mode="time"
             onChange={onChange}
           />

@@ -1,30 +1,30 @@
 import React from 'react';
 import { StyleProp, ViewStyle, Alert } from 'react-native';
 import EventsAdder from '../components/EventsAdder';
+import Time from '../utilClasses/Time';
 
 export default class EventsAdderContainer extends
   React.Component<
     {
       style?: StyleProp<ViewStyle>;
-      onSubmit: (name: string, start: Date, end: Date) => boolean;
+      onSubmit: (name: string, start: Time, end: Time) => boolean;
     },
     // {onPress: (name: string, start: number, end: number) => void},
     {
       formVisibility: boolean;
       name: string;
-      start: Date;
-      end: Date;
+      start: Time;
+      end: Time;
     }
   > {
   constructor(props) {
     super(props);
 
-    const endDate = new Date();
-    endDate.setHours(endDate.getHours() + 1);
+    const endDate = new Time(new Date());
     this.state = {
       formVisibility: false,
       name: '',
-      start: new Date(),
+      start: new Time(new Date()),
       end: endDate,
     };
     this.toggleFormVisibility = this.toggleFormVisibility.bind(this);
@@ -38,11 +38,11 @@ export default class EventsAdderContainer extends
     this.setState({ name });
   }
 
-  handleStartChange(start: Date): void {
+  handleStartChange(start: Time): void {
     this.setState({ start });
   }
 
-  handleEndChange(end: Date): void {
+  handleEndChange(end: Time): void {
     this.setState({ end });
   }
 
@@ -58,9 +58,8 @@ export default class EventsAdderContainer extends
       return;
     }
     this.toggleFormVisibility(false);
-    const endDate = new Date();
-    endDate.setHours(endDate.getHours() + 1);
-    this.setState({ name: '', start: new Date(), end: endDate });
+    const endDate = new Time(new Date());
+    this.setState({ name: '', start: new Time(new Date()), end: endDate });
   }
 
   toggleFormVisibility(value: boolean): void {

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import {
   Text, StyleSheet, View, TouchableOpacity,
 } from 'react-native';
-import DayEvent from './DayEvent';
-import toAMPM from '../containers/toAMPM';
+import DayEvent from '../utilClasses/DayEvent';
+import toAMPM from '../utilClasses/toAMPM';
 
 const styles = StyleSheet.create({
   list: {

@@ -2,7 +2,8 @@ import React from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
 import { Text } from 'react-native-svg';
 import { PieChart } from 'react-native-svg-charts';
-import DayEvent from './DayEvent';
+import DayEvent from '../utilClasses/DayEvent';
+import Time from '../utilClasses/Time';
 
 type eventsPieProps = {
   style?: StyleProp<ViewStyle>;
@@ -10,9 +11,9 @@ type eventsPieProps = {
 }
 
 const EventsPie = ({ style, events }: eventsPieProps): JSX.Element => {
-  const dayEnd = new Date();
+  const dayEnd = new Time(new Date());
   dayEnd.setHours(23, 59, 59, 999);
-  const dayStart = new Date();
+  const dayStart = new Time(new Date());
   dayStart.setHours(0, 0, 0, 0);
 
   const pieData = events.map((event) => ({

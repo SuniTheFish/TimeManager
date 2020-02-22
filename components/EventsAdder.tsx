@@ -3,6 +3,7 @@ import {
   View, Text, StyleSheet, TouchableOpacity, TextInput, Button, StyleProp, ViewStyle,
 } from 'react-native';
 import TimePickerContainer from '../containers/TimePickerContainer';
+import Time from '../utilClasses/Time';
 
 const styles = StyleSheet.create({
   formView: {
@@ -52,10 +53,10 @@ type eventsAdderProps = {
   formToggle: (value: boolean) => void;
   name: string;
   onNameChange: (name: string) => void;
-  start: Date;
-  onStartChange: (start: Date) => void;
-  end: Date;
-  onEndChange: (end: Date) => void;
+  start: Time;
+  onStartChange: (start: Time) => void;
+  end: Time;
+  onEndChange: (end: Time) => void;
   onSubmit: () => void;
 };
 

@@ -3,13 +3,14 @@ import {
   View, StyleProp, ViewStyle,
 } from 'react-native';
 import EventsList from './EventsList';
-import DayEvent from './DayEvent';
+import DayEvent from '../utilClasses/DayEvent';
 import EventsAdderContainer from '../containers/EventsAdderContainer';
 import EventsPie from './EventsPie';
+import Time from '../utilClasses/Time';
 
 
 type eventsProps = {
-  onSubmit: (name: string, start: Date, end: Date) => boolean;
+  onSubmit: (name: string, start: Time, end: Time) => boolean;
   onNamePress: (id: number) => void;
   events: DayEvent[];
   style?: StyleProp<ViewStyle>;

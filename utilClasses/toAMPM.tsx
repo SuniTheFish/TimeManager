@@ -1,4 +1,6 @@
-export default function toAMPM(date: Date): string {
+import Time from './Time';
+
+export default function toAMPM(date: Time): string {
   let hours = date.getHours();
   let minutes: number | string = date.getMinutes();
   const ampm = hours >= 12 ? 'PM' : 'AM';

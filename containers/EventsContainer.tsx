@@ -2,8 +2,9 @@ import React from 'react';
 import {
   StyleProp, ViewStyle, Alert, AsyncStorage,
 } from 'react-native';
-import DayEvent from '../components/DayEvent';
+import DayEvent from '../utilClasses/DayEvent';
 import Events from '../components/Events';
+import Time from '../utilClasses/Time';
 
 /**
  * Test if a single event conflicts with any other events in the events param
@@ -17,7 +18,7 @@ function eventsConflict(tstEvent: DayEvent, events: DayEvent[]): boolean {
     // this tests for conflicts regardless of if the events are sorted or not
     if (
       (start.getTime() > event.start.getTime() ? start : event.start).getTime()
-      <= (end.getTime() < event.end.getTime() ? end : event.end).getTime()
+      < (end.getTime() < event.end.getTime() ? end : event.end).getTime()
     ) {
       conflict = true;
     }
@@ -39,9 +40,6 @@ export default class EventsContainer extends React.Component<
     this.loadEvents = this.loadEvents.bind(this);
     this.loadEvents();
   }
-
-  // async componentDidMount(): Promise<void> {
-  // }
 
   componentDidUpdate(): void {
     this.storeEvents();
@@ -76,7 +74,7 @@ export default class EventsContainer extends React.Component<
       const rawEvents = events.map(({
         name, start, end, color,
       }) => [
-        name, start, end, color,
+        name, start.toDate(), end.toDate(), color,
       ]);
       await AsyncStorage.setItem('@events', JSON.stringify(rawEvents));
     } catch (_) {
@@ -90,7 +88,12 @@ export default class EventsContainer extends React.Component<
       const value = await AsyncStorage.getItem('@events');
       if (value !== null) {
         const rawData = JSON.parse(value);
-        const parsedData = rawData.map((val) => new DayEvent(val[0], val[1], val[2], val[3]));
+        const parsedData = rawData.map((val: [string, string, string, string]) => new DayEvent(
+          val[0],
+          new Time(new Date(val[1])),
+          new Time(new Date(val[2])),
+          val[3],
+        ));
         this.setState({ events: parsedData });
       }
     } catch (_) {
@@ -104,7 +107,7 @@ export default class EventsContainer extends React.Component<
    * @param start the start time of the event
    * @param end the end time of the event
    */
-  handleSubmit(name: string, start: Date, end: Date): boolean {
+  handleSubmit(name: string, start: Time, end: Time): boolean {
     const eventToAdd = new DayEvent(name, start, end);
     const { events } = this.state;
     if (eventsConflict(eventToAdd, events)) return false;

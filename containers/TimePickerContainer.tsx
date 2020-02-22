@@ -1,11 +1,12 @@
 import React from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
 import TimePicker from '../components/TimePicker';
+import Time from '../utilClasses/Time';
 
 type pickerProps = {
   style?: StyleProp<ViewStyle>;
-  onChange: (time: Date) => void;
-  time: Date;
+  onChange: (time: Time) => void;
+  time: Time;
 }
 
 type stateVars = {
@@ -25,7 +26,8 @@ export default class TimePickerContainer extends React.Component<pickerProps, st
     if (time) {
       const { onChange } = this.props;
       this.setState({ pickerVisible: false });
-      onChange(time);
+      const classTime = new Time(time);
+      onChange(classTime);
     }
   }
 
