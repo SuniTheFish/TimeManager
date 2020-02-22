@@ -1,5 +1,5 @@
 /**
- * Basically a class for the time that gets rid of all of js's date's mess
+ * Basically a class for the time that gets rid of all of js' date's mess
  */
 export default class Time {
   private time: Date;
